@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 NEON TETRIS - Ultimate Block Experience</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1 class="game-title">
+                <span class="neon-text">NEON</span>
+                <span class="tetris-text">TETRIS</span>
+            </h1>
+            <div class="subtitle">Ultimate Block Experience</div>
+        </div>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="stats-panel">
+                    <div class="stat-item">
+                        <span class="stat-label">LEVEL</span>
+                        <span id="level" class="stat-value">1</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">LINES</span>
+                        <span id="lines" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">SCORE</span>
+                        <span id="score" class="stat-value">0</span>
+                    </div>
+                </div>
+
+                <div class="next-piece-panel">
+                    <h3>NEXT</h3>
+                    <canvas id="nextCanvas" width="120" height="100"></canvas>
+                </div>
+
+                <div class="hold-piece-panel">
+                    <h3>HOLD</h3>
+                    <canvas id="holdCanvas" width="120" height="100"></canvas>
+                </div>
+            </div>
+
+            <div class="game-board-container">
+                <canvas id="gameCanvas" width="300" height="600"></canvas>
+                <canvas id="effectCanvas" width="300" height="600"></canvas>
+                <canvas id="particleCanvas" width="300" height="600"></canvas>
+                
+                <div class="game-overlay" id="gameOverlay">
+                    <div class="overlay-content">
+                        <h2 id="overlayTitle">GAME OVER</h2>
+                        <div class="overlay-stats">
+                            <div class="overlay-stat">
+                                <span>Final Score</span>
+                                <span id="finalScore">0</span>
+                            </div>
+                            <div class="overlay-stat">
+                                <span>Lines Cleared</span>
+                                <span id="finalLines">0</span>
+                            </div>
+                            <div class="overlay-stat">
+                                <span>Level Reached</span>
+                                <span id="finalLevel">1</span>
+                            </div>
+                        </div>
+                        <button id="restartBtn" class="btn primary">RESTART</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="controls-panel">
+                    <button id="playBtn" class="btn primary">▶ PLAY</button>
+                    <button id="pauseBtn" class="btn">⏸ PAUSE</button>
+                    <button id="soundBtn" class="btn">🔊 SOUND</button>
+                </div>
+
+                <div class="power-ups-panel">
+                    <h3>POWER-UPS</h3>
+                    <div class="power-up-grid">
+                        <button class="power-up" id="bombPower" data-type="bomb">
+                            <span class="power-icon">💣</span>
+                            <span class="power-count" id="bombCount">3</span>
+                        </button>
+                        <button class="power-up" id="timePower" data-type="time">
+                            <span class="power-icon">⏱️</span>
+                            <span class="power-count" id="timeCount">2</span>
+                        </button>
+                        <button class="power-up" id="laserPower" data-type="laser">
+                            <span class="power-icon">⚡</span>
+                            <span class="power-count" id="laserCount">2</span>
+                        </button>
+                        <button class="power-up" id="ghostPower" data-type="ghost">
+                            <span class="power-icon">👻</span>
+                            <span class="power-count" id="ghostCount">1</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="combo-display" id="comboDisplay">
+                    <div class="combo-text">COMBO</div>
+                    <div class="combo-count" id="comboCount">×1</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-panel">
+            <div class="controls-info">
+                <h3>CONTROLS</h3>
+                <div class="control-grid">
+                    <div class="control-item">
+                        <span class="control-key">←→</span>
+                        <span class="control-desc">Move</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">↓</span>
+                        <span class="control-desc">Soft Drop</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">Space</span>
+                        <span class="control-desc">Hard Drop</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">↑/Z</span>
+                        <span class="control-desc">Rotate CW</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">X</span>
+                        <span class="control-desc">Rotate CCW</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">C</span>
+                        <span class="control-desc">Hold</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievements">
+                <h3>ACHIEVEMENTS</h3>
+                <div class="achievement-list">
+                    <div class="achievement unlocked" data-achievement="first-line">
+                        <span class="achievement-icon">🌟</span>
+                        <span class="achievement-name">First Line</span>
+                    </div>
+                    <div class="achievement" data-achievement="tetris">
+                        <span class="achievement-icon">🏆</span>
+                        <span class="achievement-name">Tetris!</span>
+                    </div>
+                    <div class="achievement" data-achievement="t-spin">
+                        <span class="achievement-icon">🔄</span>
+                        <span class="achievement-name">T-Spin Master</span>
+                    </div>
+                    <div class="achievement" data-achievement="combo-king">
+                        <span class="achievement-icon">👑</span>
+                        <span class="achievement-name">Combo King</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- モバイルコントロール -->
+        <div class="mobile-controls" id="mobileControls">
+            <div class="mobile-left">
+                <button class="mobile-btn" id="mobileLeft">◀</button>
+                <button class="mobile-btn" id="mobileRight">▶</button>
+            </div>
+            <div class="mobile-center">
+                <button class="mobile-btn" id="mobileRotate">🔄</button>
+                <button class="mobile-btn" id="mobileHold">📦</button>
+            </div>
+            <div class="mobile-right">
+                <button class="mobile-btn" id="mobileDown">▼</button>
+                <button class="mobile-btn large" id="mobileDrop">⬇</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 音声コンテナ -->
+    <div id="audioContainer" style="display: none;"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
